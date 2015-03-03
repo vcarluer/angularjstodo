@@ -2,17 +2,16 @@
 	'use strict';
 
 	angular.module("xPlat.controllers")
-		.controller('ToDoCtrl', ['$scope', 'mapsSimulator', 'storage', function ($scope, mapsSimulator, storage) {
+		.controller('ToDoCtrl', ['$scope', 'maps', 'storage', function ($scope, maps, storage) {
 			//.controller('ToDoCtrl', ['$scope', 'storage', function ($scope, storage) {
 			var refresh = function () {
 				$scope.todos = storage.getAll();
 			}
 
 			var getAddress = function () {
-				//return maps.getCurrentPosition()
-				//    .then(maps.getAddressFromPosition, function (error) { return error.message; });
-
-				return mapsSimulator.getUnknownAddress();
+				return maps.getCurrentPosition()
+					.then(maps.getAddressFromPosition,
+					 function (error) { return error.message; });
 			}
 
 			$scope.addToDo = function () {

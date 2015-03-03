@@ -182,6 +182,40 @@
 			}
 		}])
 
+		.factory("maps", ["$rootScope", "$q", "$window", "$resource", "cordova", function ($rootScope, $q, $window, $resource, cordova) {
+			var key = 'AhoikK9tHcamAPN5U3mkroEQnSxcOs_POvgLOgdQABS3eTOIkmOQwMKOXEc5gM7K';
+			var url = 'http://dev.virtualearth.net/REST/v1/Locations/:latitude,:longitude?key=' + key;
+
+			return {
+				getCurrentPosition: function () {
+					return cordova.ready.then(function () {
+						var deferred = $q.defer();
+						$window.navigator.geolocation.getCurrentPosition(function (successValue) {
+							$rootScope.$apply(function () {
+								deferred.resolve(successValue);
+							});
+						}, function (errorValue) {
+							$rootScope.$apply(function () {
+								deferred.reject(errorValue);
+							});
+						});
+
+						return deferred.promise;
+					});
+				},
+
+				getAddressFromPosition: function (position) {
+					return $resource(url, {})
+                        .get({ latitude: position.coords.latitude, longitude: position.coords.longitude })
+                        .$promise.then(function (response) {
+                        	return response.resourceSets[0].resources[0].address.formattedAddress;
+                        }, function (error) {
+                        	return position.coords.latitude + "," + position.coords.longitude
+                        });
+				}
+			}
+		}])
+
 		.factory("cordova", ['$q', "$window", "$timeout", function ($q, $window, $timeout) {
 			var deferred = $q.defer();
 			var resolved = false;

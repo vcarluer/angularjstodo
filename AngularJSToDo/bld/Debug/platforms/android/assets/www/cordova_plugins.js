@@ -22,7 +22,8 @@ module.exports.metadata =
 // TOP OF METADATA
 {
     "org.apache.cordova.inappbrowser": "0.5.2",
-    "com.msopentech.azure-mobile-services": "0.1.4"
+    "com.msopentech.azure-mobile-services": "0.1.4",
+    "org.apache.cordova.geolocation": "0.3.10"
 }
 // BOTTOM OF METADATA
 });
