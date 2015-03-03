@@ -1,0 +1,45 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<title>AngularJSToDo</title>
+	<!-- Cordova reference -->
+	<script src="cordova.js"></script>
+
+	<!-- vcrtodo references -->
+	<script src="services\mobileServices\settings\vcrtodo.js"></script>
+	<script src="scripts/platformOverrides.js"></script>
+	<script src="scripts/frameworks/angular.min.js"></script>
+	<script src="scripts/frameworks/angular-resource.min.js"></script>
+	<!-- AngularJSToDo references -->
+	<link href="css/index.css" rel="stylesheet" />
+</head>
+<body ng-app="xPlat">
+	<!--Sample from https://msdn.microsoft.com/en-us/library/dn832630.aspx -->
+	<section id="todoapp" ng-controller="ToDoCtrl">		
+		<header id="header">
+			<div id="headerBand"></div>
+			<div id="identification"><div id="avatardiv"></div><div id="name">Vincent Carluer</div></div>
+			<input id="new-todo" placeholder="What needs to be done?" ng-text-change="addToDo()" ng-model="newToDoText" autofocus>
+		</header>
+		<section id="main">			
+			<div id="todo-list">
+				<div class="templateWrapper" ng-repeat="toDoItem in todos">
+					<div class="templateContainer">
+						<input class="templateTitle" ng-class="{crossedOut: toDoItem.done}" type="text" ng-text-change="changeToDoText(toDoItem)" ng-model="toDoItem.text" />
+						<h3 class="templateAddress">{{toDoItem.address}}</h3>
+						<button class="templateLeft templateToggle" ng-class="{'checked': toDoItem.done, 'unchecked': !toDoItem.done}" ng-mousedown="toggleToDoDone(toDoItem)"></button>
+						<button class="templateLeft templateRemove" ng-click="removeToDo(toDoItem)"></button>
+					</div>
+					<div class="templateBorder"></div>
+				</div>
+			</div>
+		</section>
+	</section>
+
+	<script src="scripts/index.js"></script>
+	<script src="scripts/services.js"></script>
+	<script src="scripts/controllers.js"></script>
+	<script src="scripts/directives.js"></script>
+</body>
+</html>

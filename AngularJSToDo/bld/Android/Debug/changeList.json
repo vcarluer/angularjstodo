@@ -1,0 +1,16 @@
+{
+  "changedFilesIos": [
+    "css\\index.css",
+    "services\\mobileServices\\settings\\vcrtodo.js"
+  ],
+  "deletedFilesIos": [],
+  "addedPluginsIos": [],
+  "deletedPluginsIos": [],
+  "changedFiles": [
+    "css\\index.css",
+    "services\\mobileServices\\settings\\vcrtodo.js"
+  ],
+  "deletedFiles": [],
+  "addedPlugins": [],
+  "deletedPlugins": []
+}
