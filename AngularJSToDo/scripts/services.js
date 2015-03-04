@@ -150,11 +150,9 @@
 			var table = vcrtodoClient.getTable("todoitem");
 
 			var azureStorage = {
-				getAll: function (success) {
+				getAll: function () {
 					// return toDoItem.query();
-					return table.read().done(function (results) {
-						success(results);
-					});
+					return table.read();
 				},
 
 				create: function (text, address) {

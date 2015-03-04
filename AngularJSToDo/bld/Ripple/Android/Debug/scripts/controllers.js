@@ -5,11 +5,11 @@
 		.controller('ToDoCtrl', ['$scope', 'vcrtodoClient', 'maps', 'storage', function ($scope, vcrtodoClient, maps, storage) {
 			//.controller('ToDoCtrl', ['$scope', 'storage', function ($scope, storage) {
 			var refresh = function () {
-				storage.getAll(refreshDone);
-			}
-
-			var refreshDone = function (todos) {
-				$scope.todos = todos;
+				storage.getAll().then(function (todos) {
+					$scope.$apply(function () {
+						$scope.todos = todos;
+					});					
+				});
 			}
 
 			var getAddress = function () {
@@ -21,7 +21,11 @@
 			$scope.logIn = function () {
 				vcrtodoClient.login("twitter").then(function () {
 					if (vcrtodoClient.currentUser) {
-						$scope.userName = vcrtodoClient.currentUser.userId;
+						$scope.$apply(function () {
+							$scope.userName = vcrtodoClient.currentUser.userId;
+							$scope.hideLogButton = true;
+						});
+						
 						refresh();
 					}
 				}, function (error) {

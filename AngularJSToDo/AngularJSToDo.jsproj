@@ -247,9 +247,6 @@
     <Content Include="scripts\frameworks\angular.js" />
     <Content Include="scripts\frameworks\angular.min.js.map" />
     <Content Include="scripts\services.js" />
-    <Content Include="services\mobileServices\settings\vcrtodo.js">
-      <ConnectedServiceReference>vcrtodo</ConnectedServiceReference>
-    </Content>
     <Folder Include="images\" />
     <Content Include="merges\android\scripts\android2.3-jscompat.js" />
     <Content Include="merges\android\scripts\platformOverrides.js" />

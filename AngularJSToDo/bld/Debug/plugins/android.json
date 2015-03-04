@@ -42,10 +42,10 @@
         "com.msopentech.azure-mobile-services": {
             "PACKAGE_NAME": "io.cordova.AngularJSToDo"
         },
-        "org.apache.cordova.geolocation": {
+        "org.apache.cordova.device": {
             "PACKAGE_NAME": "io.cordova.AngularJSToDo"
         },
-        "org.apache.cordova.device": {
+        "org.apache.cordova.geolocation": {
             "PACKAGE_NAME": "io.cordova.AngularJSToDo"
         }
     },

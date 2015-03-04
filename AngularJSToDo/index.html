@@ -7,7 +7,6 @@
 	<script src="cordova.js"></script>
 
 	<!-- vcrtodo references -->
-	<script src="services\mobileServices\settings\vcrtodo.js"></script>
 	<script src="scripts/platformOverrides.js"></script>
 	<script src="scripts/frameworks/angular.min.js"></script>
 	<script src="scripts/frameworks/angular-resource.min.js"></script>
@@ -21,8 +20,8 @@
 			<div id="headerBand"></div>
 			<div id="identification">
 				<div id="avatardiv"></div>
-				<button id="login" ng-click="logIn()" ng-hide="loggedIn()">Log In</button>
-				<div id="userName" ng-bind="{{userName}}"</div>
+				<button id="login" ng-click="logIn()" ng-hide="hideLogButton">Log In</button>
+				<div id="userName">{{userName}}</div>
 			</div>
 			<input id="new-todo" placeholder="What needs to be done?" ng-text-change="addToDo()" ng-model="newToDoText" autofocus>
 		</header>
