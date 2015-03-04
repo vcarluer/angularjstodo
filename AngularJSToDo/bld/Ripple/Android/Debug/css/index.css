@@ -109,6 +109,16 @@ input[type="checkbox"] {
 	margin:auto;
 }
 
+#login {
+	float:left;
+	width:100%;
+	text-align:center;
+	margin: 0;
+    height: 50px;
+    font-size: 21px;
+    font-family: "Arial";
+}
+
 #userName {	
     position: relative;
     margin: 0;

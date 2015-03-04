@@ -19,13 +19,13 @@
 		<header id="header">
 			<div id="headerBand"></div>
 			<div id="identification">
-				<div id="avatardiv"></div>
+				<div id="avatardiv" ng-show="hideLogButton"></div>
 				<button id="login" ng-click="logIn()" ng-hide="hideLogButton">Log In</button>
-				<div id="userName">{{userName}}</div>
+				<div id="userName" ng-show="hideLogButton">{{userName}}</div>
 			</div>
-			<input id="new-todo" placeholder="What needs to be done?" ng-text-change="addToDo()" ng-model="newToDoText" autofocus>
+			<input id="new-todo" ng-show="hideLogButton" placeholder="What needs to be done?" ng-text-change="addToDo()" ng-model="newToDoText" autofocus>
 		</header>
-		<section id="main">			
+		<section id="main" ng-show="hideLogButton">
 			<div id="todo-list">
 				<div class="templateWrapper" ng-repeat="toDoItem in todos">
 					<div class="templateContainer">
