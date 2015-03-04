@@ -1,41 +1,48 @@
-<!DOCTYPE html>
-<!--
-    Licensed to the Apache Software Foundation (ASF) under one
-    or more contributor license agreements.  See the NOTICE file
-    distributed with this work for additional information
-    regarding copyright ownership.  The ASF licenses this file
-    to you under the Apache License, Version 2.0 (the
-    "License"); you may not use this file except in compliance
-    with the License.  You may obtain a copy of the License at
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
-    Unless required by applicable law or agreed to in writing,
-    software distributed under the License is distributed on an
-    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
-     KIND, either express or implied.  See the License for the
-    specific language governing permissions and limitations
-    under the License.
--->
+﻿<!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="utf-8" />
-        <meta name="format-detection" content="telephone=no" />
-        <meta name="msapplication-tap-highlight" content="no" />
-        <!-- WARNING: for iOS 7, remove the width=device-width and height=device-height attributes. See https://issues.apache.org/jira/browse/CB-4323 -->
-        <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
-        <link rel="stylesheet" type="text/css" href="css/index.css" />
-        <title>Hello World</title>
-    </head>
-    <body>
-        <div class="app">
-            <h1>Apache Cordova</h1>
-            <div id="deviceready" class="blink">
-                <p class="event listening">Connecting to Device</p>
-                <p class="event received">Device is Ready</p>
-            </div>
-        </div>
-        <script type="text/javascript" src="cordova.js"></script>
-        <script type="text/javascript" src="js/index.js"></script>
-    </body>
+<head>
+	<meta charset="utf-8" />
+	<title>AngularJSToDo</title>
+	<!-- Cordova reference -->
+	<script src="cordova.js"></script>
+
+	<!-- vcrtodo references -->
+	<script src="scripts/platformOverrides.js"></script>
+	<script src="scripts/frameworks/angular.min.js"></script>
+	<script src="scripts/frameworks/angular-resource.min.js"></script>
+	<!-- AngularJSToDo references -->
+	<link href="css/index.css" rel="stylesheet" />
+</head>
+<body> <!-- ng-app="xPlat"-->
+	<!--Sample from https://msdn.microsoft.com/en-us/library/dn832630.aspx -->
+	<section id="todoapp" ng-controller="ToDoCtrl">		
+		<header id="header">
+			<div id="headerBand"></div>
+			<div id="identification">
+				<div id="avatardiv" ng-show="hideLogButton"></div>
+				<button id="login" ng-click="logIn()" ng-hide="hideLogButton">Log In</button>
+				<div id="userName" ng-show="hideLogButton">{{userName}}</div>
+			</div>
+			<input id="new-todo" ng-show="hideLogButton" placeholder="What needs to be done?" ng-text-change="addToDo()" ng-model="newToDoText" autofocus>
+		</header>
+		<section id="main" ng-show="hideLogButton">
+			<div id="todo-list">
+				<div class="templateWrapper" ng-repeat="toDoItem in todos">
+					<div class="templateContainer">
+						<input class="templateTitle" ng-class="{crossedOut: toDoItem.done}" type="text" ng-text-change="changeToDoText(toDoItem)" ng-model="toDoItem.text" />
+						<h3 class="templateAddress">{{toDoItem.address}}</h3>
+						<button class="templateLeft templateToggle" ng-class="{'checked': toDoItem.done, 'unchecked': !toDoItem.done}" ng-mousedown="toggleToDoDone(toDoItem)"></button>
+						<button class="templateLeft templateRemove" ng-click="removeToDo(toDoItem)"></button>
+					</div>
+					<div class="templateBorder"></div>
+				</div>
+			</div>
+		</section>
+	</section>
+
+	<script src="scripts/index.js"></script>
+	<script src="scripts/services.js"></script>
+	<script src="scripts/controllers.js"></script>
+	<script src="scripts/directives.js"></script>
+</body>
 </html>

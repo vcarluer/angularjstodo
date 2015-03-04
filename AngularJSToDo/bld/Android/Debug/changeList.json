@@ -1,12 +1,16 @@
 {
   "changedFilesIos": [
     "css\\index.css",
-    "index.html"
+    "index.html",
+    "scripts\\controllers.js"
   ],
   "deletedFilesIos": [],
   "addedPluginsIos": [],
   "deletedPluginsIos": [],
-  "changedFiles": [],
+  "changedFiles": [
+    "index.html",
+    "css\\index.css"
+  ],
   "deletedFiles": [],
   "addedPlugins": [],
   "deletedPlugins": []

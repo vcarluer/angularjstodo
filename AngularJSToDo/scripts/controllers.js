@@ -18,8 +18,8 @@
 					 function (error) { return error.message; });
 			}
 
-			$scope.logIn = function () {
-				vcrtodoClient.login("twitter").then(function () {
+			$scope.logIn = function (provider) {
+				vcrtodoClient.login(provider).then(function () {
 					if (vcrtodoClient.currentUser) {
 						$scope.$apply(function () {
 							$scope.userName = vcrtodoClient.currentUser.userId;

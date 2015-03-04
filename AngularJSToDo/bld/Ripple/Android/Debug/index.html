@@ -20,7 +20,8 @@
 			<div id="headerBand"></div>
 			<div id="identification">
 				<div id="avatardiv" ng-show="hideLogButton"></div>
-				<button id="login" ng-click="logIn()" ng-hide="hideLogButton">Log In</button>
+				<button id="loginMS" class="login" ng-click="logIn('microsoftaccount')" ng-hide="hideLogButton">Log In Microsoft</button>
+				<button id="loginTwitter" class="login" ng-click="logIn('twitter')" ng-hide="hideLogButton">Log In Twitter</button>
 				<div id="userName" ng-show="hideLogButton">{{userName}}</div>
 			</div>
 			<input id="new-todo" ng-show="hideLogButton" placeholder="What needs to be done?" ng-text-change="addToDo()" ng-model="newToDoText" autofocus>

@@ -109,9 +109,9 @@ input[type="checkbox"] {
 	margin:auto;
 }
 
-#login {
+.login {
 	float:left;
-	width:100%;
+	width:50%;
 	text-align:center;
 	margin: 0;
     height: 50px;
