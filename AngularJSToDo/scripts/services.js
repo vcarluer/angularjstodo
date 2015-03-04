@@ -45,8 +45,8 @@
 			}
 
 			return {
-				getAll: function () {
-					return loadFromStorage();
+				getAll: function (success) {
+					success(loadFromStorage());
 				},
 
 				create: function (text, address) {
@@ -90,74 +90,100 @@
 			}
 		}])
 
+		.factory("vcrtodoClient", ["$window", function ($window) {
+			return new $window.WindowsAzure.MobileServiceClient(
+							"https://vcrtodo.azure-mobile.net/",
+							"lLbEyyaRthEKWSaHRrkjewZQWFHRtt95");
+			/*return {
+				vcrtodoClient: null,
+				client: function () {
+					cordova.ready.then(function () {
+						if (!vcrtodoClient) {
+							vcrtodoClient = new $window.WindowsAzure.MobileServiceClient(
+							"https://vcrtodo.azure-mobile.net/",
+							"lLbEyyaRthEKWSaHRrkjewZQWFHRtt95");
+						}
+						
+						return vcrtodoClient;
+					})
+				}
+			}*/
+		}])
+
 		// To support Azure, add Azure storage service
-        // code here ("azureStorage").
+		// code here ("azureStorage").
 
-        .factory("azureStorage", ["$q", "$resource", "$rootScope", "guidGenerator", function ($q, $resource, $rootScope, guidGenerator) {
-        	var azureMobileServicesInstallationId = guidGenerator();
-        	var azureMobileServicesKey = 'lLbEyyaRthEKWSaHRrkjewZQWFHRtt95'; // Add your Azure Mobile Service Application Key
-        	var azureMobileServicesAddress = 'https://vcrtodo.azure-mobile.net/'; // Add your Azure Mobile Service Application URL
-        	var azureMobileServicesTableAddress = azureMobileServicesAddress + 'tables/todoitem/:id';
-        	var headers = {
-        		'X-ZUMO-APPLICATION': azureMobileServicesKey,
-        		'X-ZUMO-INSTALLATION-ID': azureMobileServicesInstallationId,
-        		'X-ZUMO-VERSION': 'ZUMO/1.0 (lang=Web; os=--; os_version=--; arch=--; version=1.0.20218.0)',
-        		'Content-Type': 'application/json'
-        	};
+		.factory("azureStorage", ["vcrtodoClient", "$q", "$resource", "$rootScope", "guidGenerator", function (vcrtodoClient, $q, $resource, $rootScope, guidGenerator) {			
+			/*var azureMobileServicesInstallationId = guidGenerator();
+			var azureMobileServicesKey = 'lLbEyyaRthEKWSaHRrkjewZQWFHRtt95'; // Add your Azure Mobile Service Application Key
+			var azureMobileServicesAddress = 'https://vcrtodo.azure-mobile.net/'; // Add your Azure Mobile Service Application URL
+			var azureMobileServicesTableAddress = azureMobileServicesAddress + 'tables/todoitem/:id';
+			var headers = {
+				'X-ZUMO-APPLICATION': azureMobileServicesKey,
+				'X-ZUMO-INSTALLATION-ID': azureMobileServicesInstallationId,
+				'X-ZUMO-VERSION': 'ZUMO/1.0 (lang=Web; os=--; os_version=--; arch=--; version=1.0.20218.0)',
+				'Content-Type': 'application/json'
+			};
 
-        	var toDoItem = $resource(azureMobileServicesTableAddress, { id: '@id' }, {
-        		'query': {
-        			method: 'GET',
-        			params: { $top: '1000' },
-        			isArray: true,
-        			headers: headers
-        		},
-        		'delete': {
-        			method: 'DELETE',
-        			headers: headers
-        		},
-        		'save': {
-        			method: 'POST',
-        			headers: headers
-        		},
-        		'update': {
-        			method: 'PATCH',
-        			headers: headers
-        		}
-        	});
+			var toDoItem = $resource(azureMobileServicesTableAddress, { id: '@id' }, {
+				'query': {
+					method: 'GET',
+					params: { $top: '1000' },
+					isArray: true,
+					headers: headers
+				},
+				'delete': {
+					method: 'DELETE',
+					headers: headers
+				},
+				'save': {
+					method: 'POST',
+					headers: headers
+				},
+				'update': {
+					method: 'PATCH',
+					headers: headers
+				}
+			});*/
 
+			// http://azure.microsoft.com/en-us/documentation/articles/mobile-services-html-how-to-use-client-library/
+			var table = vcrtodoClient.getTable("todoitem");
 
-        	var azureStorage = {
-        		getAll: function () {
-        			return toDoItem.query();
-        		},
+			var azureStorage = {
+				getAll: function (success) {
+					// return toDoItem.query();
+					return table.read().done(function (results) {
+						success(results);
+					});
+				},
 
-        		create: function (text, address) {
-        			var item = new toDoItem({
-        				text: text,
-        				address: JSON.stringify(address),
-        				done: false
-        			});
+				create: function (text, address) {
+					var item = {
+						text: text,
+						address: JSON.stringify(address),
+						done: false
+					};
 
-        			return item.$save();
-        		},
+					// return item.$save();
+					return table.insert(item);        			
+				},
 
-        		update: function (item) {
-        			return item.$update();
-        		},
+				update: function (item) {
+					return table.update(item);
+				},
 
-        		del: function (item) {
-        			return item.$delete();
-        		},
-        	};
+				del: function (item) {
+					return table.del(item);
+				}
+			};
 
-        	Object.defineProperty(azureStorage, "isAvailable", {
-        		enumerable: false,
-        		get: function () { return azureMobileServicesKey && azureMobileServicesAddress; },
-        	});
+			Object.defineProperty(azureStorage, "isAvailable", {
+				enumerable: false,
+				get: function () { return vcrtodoClient !== null; }
+			});
 
-        	return azureStorage;
-        }])
+			return azureStorage;
+		}])
 
 		.factory("storage", ["$injector", function ($injector) {
 			var azureService = $injector.get('azureStorage');
@@ -206,12 +232,12 @@
 
 				getAddressFromPosition: function (position) {
 					return $resource(url, {})
-                        .get({ latitude: position.coords.latitude, longitude: position.coords.longitude })
-                        .$promise.then(function (response) {
-                        	return response.resourceSets[0].resources[0].address.formattedAddress;
-                        }, function (error) {
-                        	return position.coords.latitude + "," + position.coords.longitude
-                        });
+						.get({ latitude: position.coords.latitude, longitude: position.coords.longitude })
+						.$promise.then(function (response) {
+							return response.resourceSets[0].resources[0].address.formattedAddress;
+						}, function (error) {
+							return position.coords.latitude + "," + position.coords.longitude
+						});
 				}
 			}
 		}])
@@ -233,4 +259,6 @@
 
 			return { ready: deferred.promise };
 		}]);
+
+	// Identity: http://azure.microsoft.com/en-us/documentation/articles/mobile-services-html-get-started-users/
 })();

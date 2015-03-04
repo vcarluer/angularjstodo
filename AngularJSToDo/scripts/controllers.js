@@ -2,16 +2,35 @@
 	'use strict';
 
 	angular.module("xPlat.controllers")
-		.controller('ToDoCtrl', ['$scope', 'maps', 'storage', function ($scope, maps, storage) {
+		.controller('ToDoCtrl', ['$scope', 'vcrtodoClient', 'maps', 'storage', function ($scope, vcrtodoClient, maps, storage) {
 			//.controller('ToDoCtrl', ['$scope', 'storage', function ($scope, storage) {
 			var refresh = function () {
-				$scope.todos = storage.getAll();
+				storage.getAll(refreshDone);
+			}
+
+			var refreshDone = function (todos) {
+				$scope.todos = todos;
 			}
 
 			var getAddress = function () {
 				return maps.getCurrentPosition()
 					.then(maps.getAddressFromPosition,
 					 function (error) { return error.message; });
+			}
+
+			$scope.logIn = function () {
+				vcrtodoClient.login("twitter").then(function () {
+					if (vcrtodoClient.currentUser) {
+						$scope.userName = vcrtodoClient.currentUser.userId;
+						refresh();
+					}
+				}, function (error) {
+					alert(error);
+				});
+			}
+
+			$scope.loggedIn = function () {
+				vcrtodoClient.currentUser !== null;
 			}
 
 			$scope.addToDo = function () {

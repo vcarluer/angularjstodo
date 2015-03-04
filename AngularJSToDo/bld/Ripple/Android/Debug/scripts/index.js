@@ -5,6 +5,8 @@
 	angular.module('xPlat.controllers', []);
 	angular.module('xPlat.services', ['ngResource']);
 	document.addEventListener("deviceready", function () {
+		angular.bootstrap(document, ["xPlat"]);
+
 		document.getElementById('avatardiv').innerHTML = '<img id="avatar" src="' + get_gravatar('vcarluer@gmail.com', 50) + '" />';
 	});
 

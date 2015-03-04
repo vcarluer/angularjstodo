@@ -14,12 +14,16 @@
 	<!-- AngularJSToDo references -->
 	<link href="css/index.css" rel="stylesheet" />
 </head>
-<body ng-app="xPlat">
+<body> <!-- ng-app="xPlat"-->
 	<!--Sample from https://msdn.microsoft.com/en-us/library/dn832630.aspx -->
 	<section id="todoapp" ng-controller="ToDoCtrl">		
 		<header id="header">
 			<div id="headerBand"></div>
-			<div id="identification"><div id="avatardiv"></div><div id="name">Vincent Carluer</div></div>
+			<div id="identification">
+				<div id="avatardiv"></div>
+				<button id="login" ng-click="logIn()" ng-hide="loggedIn()">Log In</button>
+				<div id="userName" ng-bind="{{userName}}"</div>
+			</div>
 			<input id="new-todo" placeholder="What needs to be done?" ng-text-change="addToDo()" ng-model="newToDoText" autofocus>
 		</header>
 		<section id="main">			
